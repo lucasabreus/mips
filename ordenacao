@@ -1,0 +1,53 @@
+.data
+
+vetor: .word 4,6,1,2,2,7,1,23,1
+
+
+.text
+
+la $t0, vetor
+li $s1 1 #comparacao apos o slt  
+li $t1, 0 #x
+li $t2, 0 #y
+li $t3, 4 #incrementa
+li $t4, 36 #n
+
+
+#for(int y=0; y < n; y++)
+
+fordefora:
+bne $t1, $t4, fordentro
+j fim
+
+fordentro:
+bne $t2, $t4, if
+#incrementa x
+add $t1, $t3, $t1
+li $t2, 0
+j fordefora
+
+# if (vet[x] < v [y]
+if:
+# x = t1 e y = t2 e s0 usa o sinal
+lw $t5, vetor($t1)
+lw $t6, vetor($t2)
+li $s0, 0
+slt $s0, $t5, $t6
+beq $s0, $s1, entraif
+add $t2, $t3, $t2
+j fordentro
+# temp e s3 aux2
+entraif:
+
+#temp
+lw $s2, vetor($t1)
+lw $s3, vetor($t2)
+
+#vet[x] = vet[y]
+#vet[y] = temp
+sw $s3, vetor($t1)
+sw $s2, vetor($t2)
+add $t2, $t3, $t2
+j fordentro
+
+fim:
